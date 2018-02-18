@@ -61,4 +61,8 @@ public class Pizza {
     public List<Slice> getSlices() {
         return slices;
     }
+
+    public int getSize() {
+        return rows * columns;
+    }
 }
