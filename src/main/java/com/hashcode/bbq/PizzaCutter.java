@@ -4,14 +4,20 @@ import java.util.List;
 
 public class PizzaCutter {
 
-    Pizza cutPizza(Pizza pizza) {
-        int minimumNumberOfSlices = (int) Math.ceil((double) pizza.getSize() / (double) pizza.getMaximumCellsPerSlice());
-        int maximumNumberOfSlices = (int) Math.floor((double) pizza.getSize() / (double) pizza.getMinimumIngredientType());
-        int minimumSizeOfSlice = pizza.getMinimumIngredientType() * 2;
-        int maximumSizeOfSlice = pizza.getMaximumCellsPerSlice();
+    List<int[]> cookieCutters;
+    
+    
+    
+    public List<int[]> getCookieCutters() {
+        return cookieCutters;
+    }
 
-        CookieCutterCreator cookieCutterCreator = new CookieCutterCreator();
-        List<int[]> cookieCutters = cookieCutterCreator.getCookieCutters(minimumSizeOfSlice, maximumSizeOfSlice);
+    public void setCookieCutters(List<int[]> cookieCutters) {
+        this.cookieCutters = cookieCutters;
+    }
+
+    Pizza cutPizza(Pizza pizza) {
+       
 
         Ingredient[][] ingredients = pizza.getIngredients();
         for (int i = 0; i < pizza.getRows(); i++) {

@@ -65,4 +65,15 @@ public class Pizza {
     public int getSize() {
         return rows * columns;
     }
+
+    public Pizza clone() {
+        Pizza cloned = new Pizza(rows, columns, minimumIngredientType, maximumCellsPerSlice);
+        for (int i = 0; i < rows; i++) {
+            for (int j = 0; j < columns; j++) {
+                cloned.addIngredient(ingredients[i][j].getIngredient().name(), i, j);
+            }
+        }
+        return cloned;
+
+    }
 }
