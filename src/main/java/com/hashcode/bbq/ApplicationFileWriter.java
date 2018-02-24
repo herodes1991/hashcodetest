@@ -11,51 +11,14 @@ public class ApplicationFileWriter {
     public static void main(String[] args) throws IOException {
 
         Pizza pizza;
-        String fileName = "/home/jmorant/Downloads/medium.in";
-
-        String output = "/home/jmorant/Downloads/example.out";
+        String fileName = args[0];
+        String output = fileName + ".out";
         FileReader fileReader = new FileReader(fileName);
-
         PizzaCreator pizzaCreator = new PizzaCreator(fileReader);
         pizza = pizzaCreator.createPizza();
-
         List<int[]> cookieCutters = originalCutters(pizza);
-
-        List<List<int[]>> shuffle = new ArrayList<>();
-
-        for (int i = 0; i < cookieCutters.size(); i++) {
-            List<int[]> newElement = new ArrayList<>();
-            for (int j = i; j < cookieCutters.size(); j++) {
-                newElement.add(cookieCutters.get(j));
-            }
-            for (int j = 0; j < i; j++) {
-                newElement.add(cookieCutters.get(j));
-            }
-            shuffle.add(newElement);
-        }
-
-        int maxCells = 0;
-        int bestIndex = -1;
-
-        for (int i = 0; i < shuffle.size(); i++) {
-
-            PizzaCutter pizzaCutter = new PizzaCutter();
-            pizzaCutter.setCookieCutters(shuffle.get(i));
-            Pizza resultPizza = pizzaCutter.cutPizza(pizza.clone());
-            List<Slice> slices = resultPizza.getSlices();
-            int cells = 0;
-            StringBuilder builder = new StringBuilder();
-            for (Slice slice : slices) {
-                cells += slice.getNumCells();
-            }
-            System.out.println(cells);
-            if (cells > maxCells) {
-                maxCells = cells;
-                bestIndex = i;
-            }
-        }
-        System.out.println(bestIndex + ":: " + maxCells);
-
+        List<List<int[]>> shuffle = getReorderedLists(cookieCutters);
+        int bestIndex = getBestIndex(pizza, shuffle);
         PizzaCutter pizzaCutter = new PizzaCutter();
         pizzaCutter.setCookieCutters(shuffle.get(bestIndex));
         Pizza resultPizza = pizzaCutter.cutPizza(pizza.clone());
@@ -75,14 +38,55 @@ public class ApplicationFileWriter {
             builder.append(slice.getColumnEnd());
             builder.append("\n");
         }
-        builder.append(cells);
+        //builder.append(cells);
         System.out.println(builder.toString());
-//        File file = new File(output);
-//        FileOutputStream out = new FileOutputStream(file);
-//        out.write(builder.toString().getBytes());
-//        out.flush();
-//        out.close();
+        System.out.println(cells);
+        File file = new File(output);
+        FileOutputStream out = new FileOutputStream(file);
+        out.write(builder.toString().getBytes());
+        out.flush();
+        out.close();
         System.out.println("done");
+    }
+
+    private static int getBestIndex(Pizza pizza, List<List<int[]>> shuffle) {
+        int maxCells = 0;
+        int bestIndex = -1;
+
+        for (int i = 0; i < shuffle.size(); i++) {
+
+            PizzaCutter pizzaCutter = new PizzaCutter();
+            pizzaCutter.setCookieCutters(shuffle.get(i));
+            Pizza resultPizza = pizzaCutter.cutPizza(pizza.clone());
+            List<Slice> slices = resultPizza.getSlices();
+            int cells = 0;
+            for (Slice slice : slices) {
+                cells += slice.getNumCells();
+            }
+            System.out.println(cells);
+            if (cells > maxCells) {
+                maxCells = cells;
+                bestIndex = i;
+            }
+        }
+        System.out.println(bestIndex + ":: " + maxCells);
+        return bestIndex;
+    }
+
+    private static List<List<int[]>> getReorderedLists(List<int[]> cookieCutters) {
+        List<List<int[]>> shuffle = new ArrayList<>();
+
+        for (int i = 0; i < cookieCutters.size(); i++) {
+            List<int[]> newElement = new ArrayList<>();
+            for (int j = i; j < cookieCutters.size(); j++) {
+                newElement.add(cookieCutters.get(j));
+            }
+            for (int j = 0; j < i; j++) {
+                newElement.add(cookieCutters.get(j));
+            }
+            shuffle.add(newElement);
+        }
+        return shuffle;
     }
 
     private static List<int[]> originalCutters(Pizza pizza) {

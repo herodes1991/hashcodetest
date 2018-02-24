@@ -14,7 +14,7 @@ dependencies {
     testCompile group: 'junit', name: 'junit', version: '4.12'
 }
 
-mainClassName = "com.hashcode.bbq.Application"
+mainClassName = "com.hashcode.bbq.ApplicationFileWriter"
 
 task compileApplication(type: Jar) {
     manifest {

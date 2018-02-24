@@ -1,4 +1,0 @@
-Manifest-Version: 1.0
-Implementation-Title: BBQ Pizza Application
-Main-Class: com.hashcode.bbq.Application
-

@@ -17,8 +17,6 @@ public class PizzaCutter {
     }
 
     Pizza cutPizza(Pizza pizza) {
-       
-
         Ingredient[][] ingredients = pizza.getIngredients();
         for (int i = 0; i < pizza.getRows(); i++) {
             for (int k = 0; k < pizza.getColumns(); k++) {

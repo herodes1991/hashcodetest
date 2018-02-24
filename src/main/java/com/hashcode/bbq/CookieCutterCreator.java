@@ -10,9 +10,9 @@ public class CookieCutterCreator {
         for (int i = maximumSizeOfSlice; i >= minimumSizeOfSlice; i--) {
             for (int j = 1; j < Math.sqrt(i); j++) {
                 if (i % j == 0) {
-                    cookieCutter.add(new int[]{i, j});
+                    cookieCutter.add(new int[]{i/j, j});
                     if (i != j) {
-                        cookieCutter.add(new int[]{j, i});
+                        cookieCutter.add(new int[]{j, i/j});
                     }
                 }
             }
